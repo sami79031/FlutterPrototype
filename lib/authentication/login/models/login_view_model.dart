@@ -31,7 +31,7 @@ class LoginViewModel {
         .add(userPasswordController.text));
   }
 
-  factory LoginViewModel(App app){
+  factory LoginViewModel(){
     // Check whether instance is NULL otherwise get the instance from private constructor
     _instance
     ??= // NULL Check

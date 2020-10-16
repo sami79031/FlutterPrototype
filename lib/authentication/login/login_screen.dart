@@ -25,7 +25,7 @@ class LoginState extends State<LoginView> {
   @override
   void initState() {
     super.initState();
-    _viewModel = LoginViewModel(App());
+    _viewModel = LoginViewModel();
   }
 
   @override
