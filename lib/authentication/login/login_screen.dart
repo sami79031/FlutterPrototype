@@ -50,8 +50,13 @@ class LoginState extends State<LoginView> {
         builder: (context, snapshot) {
             return Container(
                 child: TextField(
-                  decoration: InputDecoration(labelText: 'UserName'),
+                  decoration: InputDecoration(
+                      labelText: 'UserName',
+                      hintText: "type user name",
+                      errorText: snapshot.data,
+                  ),
                   controller: _viewModel.userNameController,
+
               ),
             );
         },
