@@ -7,12 +7,9 @@ class LoginViewModel {
   final userNameController = TextEditingController();
   final userPasswordController = TextEditingController();
 
-  static LoginViewModel _instance;
-
-  LoginViewModel._internal({ @required LoginFormObserver loginFormObserver }){
-    _loginFormObserver = loginFormObserver;
+  LoginViewModel() {
+    _loginFormObserver = LoginFormObserver();
     _init();
-
   }
 
   void _init() {
@@ -28,16 +25,6 @@ class LoginViewModel {
     getLoginFormObserver()
         .userPassword
         .add(userPasswordController.text));
-  }
-
-  factory LoginViewModel(){
-    // Check whether instance is NULL otherwise get the instance from private constructor
-    _instance
-    ??= // NULL Check
-    // _instance is NULL. Create instance by injecting dependency to private internal constructor.
-    LoginViewModel._internal(loginFormObserver: LoginFormObserver());
-    // Return Singleton-Instance of LoginViewModel
-    return _instance;
   }
 
   void checkLogin() {
