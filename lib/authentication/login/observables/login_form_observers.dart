@@ -4,8 +4,8 @@ abstract class LoginFormObserverContract {
   Sink get userName;
   Sink get userPassword;
 
-
   void dispose();
+
 }
 
 class LoginFormObserver extends LoginFormObserverContract {
@@ -16,16 +16,16 @@ class LoginFormObserver extends LoginFormObserverContract {
 
   @override
   void dispose() {
-    // TODO: implement dispose
+      _userNameController.close();
+      _userPasswordController.close();
   }
 
   @override
-  // TODO: implement userName
-  Sink get userName => throw UnimplementedError();
+  Sink get userName => _userNameController;
 
   @override
   // TODO: implement userPassword
-  Sink get userPassword => throw UnimplementedError();
+  Sink get userPassword => _userPasswordController;
 
 
 }
