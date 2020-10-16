@@ -41,7 +41,10 @@ class LoginViewModel {
     return _instance;
   }
 
-  void checkLogin({@required String userName, @required String userPassword}) {
+  void checkLogin() {
+    String userName = userNameController.text ?? "";
+    String userPassword = userPasswordController.text ?? "";
+
     print("USERNAME $userName");
     print("PASSWORD $userPassword");
   }

@@ -51,12 +51,14 @@ class LoginState extends State<LoginView> {
           Container(
             child: TextField(
               decoration: InputDecoration(labelText: 'Email'),
+              controller: _viewModel.userNameController,
             ),
           ),
           Container(
             child: TextField(
               //controller: _passwordFilter,
               decoration: InputDecoration(labelText: 'Password'),
+              controller: _viewModel.userPasswordController,
               obscureText: true,
             ),
           )
@@ -87,6 +89,8 @@ class LoginState extends State<LoginView> {
   }
 
   void onButtonPressed(LogInButtonAction action) {
-    print(action);
+    if (action == LogInButtonAction.login) {
+      _viewModel.checkLogin();
+    }
   }
 }
