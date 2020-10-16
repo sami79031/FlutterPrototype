@@ -44,16 +44,25 @@ class LoginState extends State<LoginView> {
     );
   }
 
+  Widget _userNameStream() {
+    return StreamBuilder<String>(
+        stream: _viewModel.getLoginFormObserver().userNameErrorText,
+        builder: (context, snapshot) {
+            return Container(
+                child: TextField(
+                  decoration: InputDecoration(labelText: 'UserName'),
+                  controller: _viewModel.userNameController,
+              ),
+            );
+        },
+    );
+  }
+
   Widget _buildTextFields() {
     return Container(
       child: Column(
         children: <Widget>[
-          Container(
-            child: TextField(
-              decoration: InputDecoration(labelText: 'Email'),
-              controller: _viewModel.userNameController,
-            ),
-          ),
+          _userNameStream(),
           Container(
             child: TextField(
               //controller: _passwordFilter,
