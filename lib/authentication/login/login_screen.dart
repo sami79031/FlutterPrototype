@@ -1,24 +1,36 @@
 import 'package:flutter/material.dart';
 
+import 'models/login_view_model.dart';
+
 enum LogInButtonAction { login, register, passwordReset }
 
 class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    return MaterialApp(
+      home: LoginView(),
+    );
+  }
+}
+
+class LoginView extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => LoginState();
+}
+
+class LoginState extends State<LoginView> {
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Login"),
-      ),
-      body: Container(
-        padding: EdgeInsets.all(20),
-        child: SingleChildScrollView(
-            child: Column(children: <Widget>[
-              _buildTextFields(),
-              SizedBox(height: 50),
-              _buildButtons(),
-            ]
-            )
-        ),
+      body: SingleChildScrollView(
+          padding: EdgeInsets.all(20),
+          child: Column(children: <Widget>[
+            SizedBox(height: 50),
+            _buildTextFields(),
+            SizedBox(height: 50),
+            _buildButtons(),
+          ]
+          )
       ),
     );
   }
