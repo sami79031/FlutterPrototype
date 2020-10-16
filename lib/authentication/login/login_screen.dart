@@ -19,6 +19,14 @@ class LoginView extends StatefulWidget {
 }
 
 class LoginState extends State<LoginView> {
+  LoginViewModel _viewModel;
+
+  @override
+  void initState() {
+    super.initState();
+    _viewModel = LoginViewModel();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,13 +47,12 @@ class LoginState extends State<LoginView> {
     return Container(
       child: Column(
         children: <Widget>[
-          new Container(
+          Container(
             child: TextField(
-              //controller: _emailFilter,
               decoration: InputDecoration(labelText: 'Email'),
             ),
           ),
-          new Container(
+          Container(
             child: TextField(
               //controller: _passwordFilter,
               decoration: InputDecoration(labelText: 'Password'),
