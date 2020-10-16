@@ -3,24 +3,24 @@ import 'package:flutter/material.dart';
 enum LogInButtonAction { login, register, passwordReset }
 
 class LoginScreen extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         title: Text("Login"),
       ),
       body: Container(
         padding: EdgeInsets.all(20),
-        child: Column(children: <Widget>[
-          _buildTextFields(),
-          SizedBox(height: 50),
-          _buildButtons(),
-        ]),
+        child: SingleChildScrollView(
+            child: Column(children: <Widget>[
+              _buildTextFields(),
+              SizedBox(height: 50),
+              _buildButtons(),
+            ]
+            )
+        ),
       ),
     );
-
   }
 
   Widget _buildTextFields() {
@@ -67,6 +67,6 @@ class LoginScreen extends StatelessWidget {
   }
 
   void onButtonPressed(LogInButtonAction action) {
-      print(action);
+    print(action);
   }
 }
