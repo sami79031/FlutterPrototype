@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mall_prototype/app/app.dart';
 import 'package:mall_prototype/authentication/login/observables/login_form_observers.dart';
 
 class LoginViewModel {

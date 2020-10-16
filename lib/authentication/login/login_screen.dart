@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mall_prototype/app/app.dart';
-
 import 'models/login_view_model.dart';
 
 enum LogInButtonAction { login, register, passwordReset }
