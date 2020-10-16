@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mall_prototype/app/app.dart';
 
 import 'models/login_view_model.dart';
 
@@ -24,7 +25,7 @@ class LoginState extends State<LoginView> {
   @override
   void initState() {
     super.initState();
-    _viewModel = LoginViewModel();
+    _viewModel = LoginViewModel(App());
   }
 
   @override
