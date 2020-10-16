@@ -27,6 +27,10 @@ class LoginViewModel {
         .add(userPasswordController.text));
   }
 
+  void dispose() {
+    _loginFormObserver.dispose();
+  }
+
   void checkLogin() {
     String userName = userNameController.text ?? "";
     String userPassword = userPasswordController.text ?? "";
