@@ -47,6 +47,7 @@ class LoginState extends State<LoginView> {
       builder: (context, snapshot) {
         return Container(
           child: TextField(
+            key: Key("user_name"),
             decoration: InputDecoration(
               labelText: 'UserName',
               hintText: "type user name",
@@ -86,6 +87,7 @@ class LoginState extends State<LoginView> {
             onPressed: () => onButtonPressed(LogInButtonAction.login),
           ),
           FlatButton(
+            key: Key("register"),
             child: Text(
               'Don\'t have an account? Tap here to register.',
               textAlign: TextAlign.center,

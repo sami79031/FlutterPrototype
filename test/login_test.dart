@@ -8,22 +8,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mall_prototype/app/app.dart';
+import 'package:mall_prototype/authentication/login/signup_screen.dart';
+
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+  testWidgets('LoginScreen on tap `register` routes to `SignUpScreen`', (WidgetTester tester) async {
     // Build our app and trigger a frame.
     await tester.pumpWidget(App());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    await tester.tap(find.byKey(Key("register")));
+    await tester.pumpAndSettle(Duration(seconds: 1));
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    expect(find.byType(SignUpScreen), findsOneWidget);
   });
 }
