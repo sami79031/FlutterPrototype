@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mall_prototype/app/app_routes.dart';
 import 'models/login_view_model.dart';
 
 enum LogInButtonAction { login, register, passwordReset }
@@ -6,8 +7,8 @@ enum LogInButtonAction { login, register, passwordReset }
 class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: LoginView(),
+    return Scaffold(
+      body: LoginView(),
     );
   }
 }
@@ -88,7 +89,10 @@ class LoginState extends State<LoginView> {
             onPressed: () => onButtonPressed(LogInButtonAction.login),
           ),
           FlatButton(
-            child: Text('Don\'t have an account? Tap here to register.'),
+            child: Text(
+                'Don\'t have an account? Tap here to register.',
+              textAlign: TextAlign.center,
+            ),
             onPressed: () => onButtonPressed(LogInButtonAction.register),
           ),
           FlatButton(
@@ -103,6 +107,8 @@ class LoginState extends State<LoginView> {
   void onButtonPressed(LogInButtonAction action) {
     if (action == LogInButtonAction.login) {
       _viewModel.checkLogin();
+    } else if (action == LogInButtonAction.register) {
+      Navigator.pushNamed(context, AppRoutes.APP_ROUTE_SIGNUP);
     }
   }
 }
