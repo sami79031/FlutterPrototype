@@ -1,37 +1,29 @@
-
 import 'package:flutter/material.dart';
 import 'package:mall_prototype/authentication/login/login_screen.dart';
 import 'package:mall_prototype/authentication/login/signup_screen.dart';
 
 class AppRoutes {
-
   static const String APP_ROUTE_LOGIN = "/";
   static const String APP_ROUTE_SIGNUP = "/signup";
 
   Route getRoutes(RouteSettings routeSettings) {
-
-    switch(routeSettings.name) {
+    switch (routeSettings.name) {
       case APP_ROUTE_LOGIN:
-        return loginScreen(routeSettings);
+        return factorRoute(routeSettings, LoginScreen(), true);
       case APP_ROUTE_SIGNUP:
-        return signUpScreen(routeSettings);
+        return factorRoute(routeSettings, SignUpScreen(), true);
     }
+
+    return null;
   }
 
-  MaterialPageRoute loginScreen(RouteSettings routeSettings) {
+  MaterialPageRoute factorRoute(
+      RouteSettings routeSettings, Widget widget, bool isFullScreen) {
+
     return MaterialPageRoute<void>(
       settings: routeSettings,
-      builder: (BuildContext context) => LoginScreen(),
-      fullscreenDialog: true,
+      builder: (BuildContext context) => widget,
+      fullscreenDialog: isFullScreen,
     );
   }
-
-  MaterialPageRoute signUpScreen(RouteSettings routeSettings) {
-    return MaterialPageRoute<void>(
-      settings: routeSettings,
-      builder: (BuildContext context) => SignUpScreen(),
-      fullscreenDialog: true,
-    );
-  }
-
 }

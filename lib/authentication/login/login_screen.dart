@@ -37,28 +37,25 @@ class LoginState extends State<LoginView> {
             _buildTextFields(),
             SizedBox(height: 50),
             _buildButtons(),
-          ]
-          )
-      ),
+          ])),
     );
   }
 
   Widget _userNameStream() {
     return StreamBuilder<String>(
-        stream: _viewModel.getLoginFormObserver().userNameErrorText,
-        builder: (context, snapshot) {
-            return Container(
-                child: TextField(
-                  decoration: InputDecoration(
-                      labelText: 'UserName',
-                      hintText: "type user name",
-                      errorText: snapshot.data,
-                  ),
-                  controller: _viewModel.userNameController,
-
-              ),
-            );
-        },
+      stream: _viewModel.getLoginFormObserver().userNameErrorText,
+      builder: (context, snapshot) {
+        return Container(
+          child: TextField(
+            decoration: InputDecoration(
+              labelText: 'UserName',
+              hintText: "type user name",
+              errorText: snapshot.data,
+            ),
+            controller: _viewModel.userNameController,
+          ),
+        );
+      },
     );
   }
 
@@ -90,7 +87,7 @@ class LoginState extends State<LoginView> {
           ),
           FlatButton(
             child: Text(
-                'Don\'t have an account? Tap here to register.',
+              'Don\'t have an account? Tap here to register.',
               textAlign: TextAlign.center,
             ),
             onPressed: () => onButtonPressed(LogInButtonAction.register),
