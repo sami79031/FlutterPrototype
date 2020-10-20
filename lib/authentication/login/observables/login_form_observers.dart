@@ -7,6 +7,7 @@ abstract class LoginFormObserverContract {
   Sink get userPassword;
 
   Stream<String> get userNameErrorText;
+  Stream<bool> get _isValidUserName;
 
   void dispose();
 
