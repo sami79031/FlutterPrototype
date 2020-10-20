@@ -1,18 +1,38 @@
 import 'dart:async';
 
-abstract class LoginFormObserverContract {
+enum LoginErrorMessage {
+  userNameNull,
+  userNameMinimumCharacters,
+  userNameFormat
+}
 
+class Err extends Error {}
+
+extension ErroeMessageExt on LoginErrorMessage {
+  static const map = {
+    LoginErrorMessage.userNameFormat: "Username is not in valid format",
+    LoginErrorMessage.userNameMinimumCharacters:
+        "User name must be at least 3 characters",
+    LoginErrorMessage.userNameNull: "Type in username",
+  };
+
+  String get value => map[this];
+}
+
+abstract class LoginFormObserverContract {
   Sink get userName;
+
   Sink get userPassword;
 
   Stream<String> get userNameErrorText;
+
   Stream<String> get _isValidUserName;
 
   String _checkValidUserName(String userName);
+
   void _handleLoginEnableProcess();
 
   void dispose();
-
 }
 
 class LoginFormObserver extends LoginFormObserverContract {
@@ -21,15 +41,15 @@ class LoginFormObserver extends LoginFormObserverContract {
   var _userPasswordController = StreamController<String>.broadcast();
   var _userNameErrorMsgController = StreamController<String>.broadcast();
 
-  LoginFormObserver():super() {
+  LoginFormObserver() : super() {
     _handleLoginEnableProcess();
   }
 
   @override
   void dispose() {
-      _userNameController.close();
-      _userPasswordController.close();
-      _userNameErrorMsgController.close();
+    _userNameController.close();
+    _userPasswordController.close();
+    _userNameErrorMsgController.close();
   }
 
   @override
@@ -42,12 +62,13 @@ class LoginFormObserver extends LoginFormObserverContract {
   Stream<String> get userNameErrorText => _userNameErrorMsgController.stream;
 
   @override
-  Stream<String> get _isValidUserName => _userNameController.stream.skip(USER_NAME_VALID_LENGTH)
+  Stream<String> get _isValidUserName => _userNameController.stream
+      .skip(USER_NAME_VALID_LENGTH)
       .map((_checkValidUserName));
 
   @override
   void _handleLoginEnableProcess() {
-    _isValidUserName.listen( (result) {
+    _isValidUserName.listen((result) {
       _userNameErrorMsgController.add(result);
     });
   }
@@ -55,13 +76,13 @@ class LoginFormObserver extends LoginFormObserverContract {
   @override
   String _checkValidUserName(String userName) {
     if (userName == null || userName.isEmpty)
-      return "Type in username";
+      return LoginErrorMessage.userNameNull.value;
 
     if (userName.length < USER_NAME_VALID_LENGTH)
-      return "User name must be at least 3 characters";
+      return LoginErrorMessage.userNameMinimumCharacters.value;
 
     if (!_validateEmail(userName))
-      return "Username is not in valid format";
+      return LoginErrorMessage.userNameFormat.value;
 
     return null;
   }
@@ -72,5 +93,4 @@ class LoginFormObserver extends LoginFormObserverContract {
     RegExp regex = new RegExp(pattern);
     return (!regex.hasMatch(value)) ? false : true;
   }
-
 }
