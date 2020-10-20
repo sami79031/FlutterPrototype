@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:mall_prototype/authentication/login/login/login_error_types.dart';
 import 'package:mall_prototype/authentication/login/login/login_static.dart';
 
@@ -12,7 +11,13 @@ abstract class LoginFormObserverContract {
 
   Stream<String> get _isValidUserName;
 
-  String _checkValidUserName(String userName);
+  Stream<String> get userPasswordErrorText;
+
+  Stream<String> get _isValidPassword;
+
+  String _checkValidUserName(String password);
+
+  String _checkValidPassword(String password);
 
   void _handleLoginEnableProcess();
 
@@ -23,6 +28,7 @@ class LoginFormObserver extends LoginFormObserverContract {
   var _userNameController = StreamController<String>.broadcast();
   var _userPasswordController = StreamController<String>.broadcast();
   var _userNameErrorMsgController = StreamController<String>.broadcast();
+  var _userPasswordErrorMsgController = StreamController<String>.broadcast();
 
   LoginFormObserver() : super() {
     _handleLoginEnableProcess();
@@ -33,6 +39,7 @@ class LoginFormObserver extends LoginFormObserverContract {
     _userNameController.close();
     _userPasswordController.close();
     _userNameErrorMsgController.close();
+    _userPasswordErrorMsgController.close();
   }
 
   @override
@@ -53,6 +60,10 @@ class LoginFormObserver extends LoginFormObserverContract {
   void _handleLoginEnableProcess() {
     _isValidUserName.listen((result) {
       _userNameErrorMsgController.add(result);
+    });
+
+    _isValidPassword.listen((result) {
+      _userPasswordErrorMsgController.add(result);
     });
   }
 
@@ -75,4 +86,22 @@ class LoginFormObserver extends LoginFormObserverContract {
     RegExp regex = new RegExp(pattern);
     return (!regex.hasMatch(value)) ? false : true;
   }
+
+  @override
+  String _checkValidPassword(String password) {
+    if (password.length < 3)
+      return "Password must be greater than 8!";
+
+    return null;
+  }
+
+  @override
+  Stream<String> get _isValidPassword => _userPasswordController.stream
+      .skip(3)
+      .map((_checkValidPassword));
+
+  @override
+  Stream<String> get userPasswordErrorText => _userPasswordErrorMsgController.stream;
+
+
 }

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:mall_prototype/resources/login_strings.dart';
 import 'login_screen.dart';
 
-
 class LoginView extends StatelessWidget {
   LoginView(this.state, {Key key}) : super(key: key);
 
   final LoginFormController state;
+
   LoginScreen get widget => state.widget;
 
   @override
@@ -43,25 +43,30 @@ class LoginView extends StatelessWidget {
   }
 
   Widget _passwordWidget() {
-    return Container(
-      height: 65,
-      child: TextFormField(
-        //controller: _passwordFilter,
-        decoration: InputDecoration(
-          labelText: LoginStrings.USER_PASSWORD_LABEL,
-          hintText: LoginStrings.USER_PASSWORD_HINT,
-          suffix: IconButton(
-            icon: Icon(
-                state.passwordVisible ? Icons.visibility : Icons.visibility_off),
-            onPressed: () {
-              state.setPasswordVisible();
-            },
-          ),
-        ),
-        controller: state.viewModel.userPasswordController,
-        obscureText: !state.passwordVisible,
-      ),
-    );
+    return StreamBuilder<String>(
+        stream: state.viewModel.getLoginFormObserver().userPasswordErrorText,
+        builder: (context, snapshot) {
+          return Container(
+            child: TextFormField(
+              //controller: _passwordFilter,
+              decoration: InputDecoration(
+                labelText: LoginStrings.USER_PASSWORD_LABEL,
+                hintText: LoginStrings.USER_PASSWORD_HINT,
+                errorText: snapshot.data,
+                suffix: IconButton(
+                  icon: Icon(state.passwordVisible
+                      ? Icons.visibility
+                      : Icons.visibility_off),
+                  onPressed: () {
+                    state.setPasswordVisible();
+                  },
+                ),
+              ),
+              controller: state.viewModel.userPasswordController,
+              obscureText: !state.passwordVisible,
+            ),
+          );
+        });
   }
 
   Widget _buildTextFields() {
@@ -90,11 +95,11 @@ class LoginView extends StatelessWidget {
           ),
           FlatButton(
             child: Text(LoginStrings.FORGOT_PASSWORD),
-            onPressed: () => state.onButtonPressed(LogInButtonAction.passwordReset),
+            onPressed: () =>
+                state.onButtonPressed(LogInButtonAction.passwordReset),
           )
         ],
       ),
     );
   }
-
 }
