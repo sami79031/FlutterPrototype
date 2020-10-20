@@ -63,34 +63,34 @@ class LoginState extends State<LoginView> {
     );
   }
 
+  Widget _passwordWidget() {
+    return Container(
+      height: 65,
+      child: TextFormField(
+        //controller: _passwordFilter,
+        decoration: InputDecoration(
+          labelText: LoginStrings.USER_PASSWORD_LABEL,
+          hintText: LoginStrings.USER_PASSWORD_HINT,
+          suffix: IconButton(
+            icon: Icon(
+                _passwordVisible ? Icons.visibility : Icons.visibility_off),
+            onPressed: () {
+              setState(() {
+                _passwordVisible = !_passwordVisible;
+              });
+            },
+          ),
+        ),
+        controller: _viewModel.userPasswordController,
+        obscureText: !_passwordVisible,
+      ),
+    );
+  }
+
   Widget _buildTextFields() {
     return Container(
       child: Column(
-        children: <Widget>[
-          _userNameStream(),
-          Container(
-            height: 65,
-            child: TextFormField(
-              //controller: _passwordFilter,
-              decoration: InputDecoration(
-                labelText: LoginStrings.USER_PASSWORD_LABEL,
-                hintText: LoginStrings.USER_PASSWORD_HINT,
-                suffix: IconButton(
-                  icon: Icon(_passwordVisible
-                      ? Icons.visibility
-                      : Icons.visibility_off),
-                  onPressed: () {
-                    setState(() {
-                      _passwordVisible = !_passwordVisible;
-                    });
-                  },
-                ),
-              ),
-              controller: _viewModel.userPasswordController,
-              obscureText: !_passwordVisible,
-            ),
-          )
-        ],
+        children: <Widget>[_userNameStream(), _passwordWidget()],
       ),
     );
   }
