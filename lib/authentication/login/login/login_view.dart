@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mall_prototype/authentication/login/models/login_view_model.dart';
 import 'package:mall_prototype/resources/login_strings.dart';
 import 'login_screen.dart';
 
@@ -7,9 +6,8 @@ class LoginView extends StatelessWidget {
 
   final LoginFormController state;
   LoginScreen get widget => state.widget;
-  final LoginViewModel _viewModel;
 
-  LoginView(this.state,this._viewModel, {Key key}) : super(key: key);
+  LoginView(this.state, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +26,7 @@ class LoginView extends StatelessWidget {
 
   Widget _userNameStream() {
     return StreamBuilder<String>(
-      stream: _viewModel.getLoginFormObserver().userNameErrorText,
+      stream: state.viewModel.getLoginFormObserver().userNameErrorText,
       builder: (context, snapshot) {
         return Container(
           child: TextFormField(
@@ -38,7 +36,7 @@ class LoginView extends StatelessWidget {
               hintText: LoginStrings.USER_NAME_LABEL_HINT,
               errorText: snapshot.data,
             ),
-            controller: _viewModel.userNameController,
+            controller: state.viewModel.userNameController,
           ),
         );
       },
@@ -61,7 +59,7 @@ class LoginView extends StatelessWidget {
             },
           ),
         ),
-        controller: _viewModel.userPasswordController,
+        controller: state.viewModel.userPasswordController,
         obscureText: !state.passwordVisible,
       ),
     );

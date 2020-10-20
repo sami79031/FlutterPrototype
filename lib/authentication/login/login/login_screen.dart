@@ -12,22 +12,22 @@ class LoginScreen extends StatefulWidget {
 
 class LoginFormController extends State<LoginScreen> {
 
-  LoginViewModel _viewModel;
+  LoginViewModel viewModel;
   bool passwordVisible;
 
   @override
   void initState() {
     super.initState();
     passwordVisible = false;
-    _viewModel = LoginViewModel();
+    viewModel = LoginViewModel();
   }
 
   @override
-  Widget build(BuildContext context) => LoginView(this, _viewModel);
+  Widget build(BuildContext context) => LoginView(this);
 
   void onButtonPressed(LogInButtonAction action) {
     if (action == LogInButtonAction.login) {
-      _viewModel.checkLogin();
+      viewModel.checkLogin();
     } else if (action == LogInButtonAction.register) {
       Navigator.pushNamed(context, AppRoutes.APP_ROUTE_SIGNUP);
     }
