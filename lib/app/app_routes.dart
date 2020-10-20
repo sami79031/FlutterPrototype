@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:mall_prototype/authentication/login/login_screen.dart';
 import 'package:mall_prototype/authentication/login/signup_screen.dart';
 
+import '../splash_screen.dart';
+
 class AppRoutes {
-  static const String APP_ROUTE_LOGIN = "/";
+  static const String APP_ROUTE_LOGIN = "/login";
   static const String APP_ROUTE_SIGNUP = "/signup";
 
   Route getRoutes(RouteSettings routeSettings) {
@@ -14,7 +16,7 @@ class AppRoutes {
         return factorRoute(routeSettings, SignUpScreen(), true);
     }
 
-    return null;
+    return factorRoute(routeSettings, Splash(), true);
   }
 
   MaterialPageRoute factorRoute(

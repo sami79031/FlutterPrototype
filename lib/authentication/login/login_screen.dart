@@ -5,6 +5,7 @@ import 'models/login_view_model.dart';
 enum LogInButtonAction { login, register, passwordReset }
 
 class LoginScreen extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
