@@ -6,9 +6,9 @@ abstract class LoginFormObserverContract {
   Sink get userPassword;
 
   Stream<String> get userNameErrorText;
-  Stream<bool> get _isValidUserName;
+  Stream<String> get _isValidUserName;
 
-  bool _checkValidUserName(String userName);
+  String _checkValidUserName(String userName);
   void _handleLoginEnableProcess();
 
   void dispose();
@@ -42,22 +42,35 @@ class LoginFormObserver extends LoginFormObserverContract {
   Stream<String> get userNameErrorText => _userNameErrorMsgController.stream;
 
   @override
-  Stream<bool> get _isValidUserName => _userNameController.stream.skip(USER_NAME_VALID_LENGTH)
+  Stream<String> get _isValidUserName => _userNameController.stream.skip(USER_NAME_VALID_LENGTH)
       .map((_checkValidUserName));
 
   @override
   void _handleLoginEnableProcess() {
-    _isValidUserName.listen( (isValidUserName) {
-        if (isValidUserName) {
-          _userNameErrorMsgController.add(null);
-        } else {
-          _userNameErrorMsgController.add("User name must be at least 3 characters");
-        }
+    _isValidUserName.listen( (result) {
+      _userNameErrorMsgController.add(result);
     });
   }
 
   @override
-  bool _checkValidUserName(String userName) => userName != null && userName.length >= USER_NAME_VALID_LENGTH;
+  String _checkValidUserName(String userName) {
+    if (userName == null || userName.isEmpty)
+      return "Type in username";
 
+    if (userName.length < USER_NAME_VALID_LENGTH)
+      return "User name must be at least 3 characters";
+
+    if (!_validateEmail(userName))
+      return "Username is not in valid format";
+
+    return null;
+  }
+
+  bool _validateEmail(String value) {
+    Pattern pattern =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regex = new RegExp(pattern);
+    return (!regex.hasMatch(value)) ? false : true;
+  }
 
 }
