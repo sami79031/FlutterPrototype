@@ -5,21 +5,13 @@ import 'models/login_view_model.dart';
 
 enum LogInButtonAction { login, register, passwordReset }
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: LoginView(),
-    );
-  }
+  _LoginFormController createState() => _LoginFormController();
 }
 
-class LoginView extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() => LoginState();
-}
+class _LoginFormController extends State<LoginScreen> {
 
-class LoginState extends State<LoginView> {
   LoginViewModel _viewModel;
   bool _passwordVisible;
 
@@ -29,6 +21,32 @@ class LoginState extends State<LoginView> {
     _passwordVisible = false;
     _viewModel = LoginViewModel();
   }
+
+  @override
+  Widget build(BuildContext context) => LoginView(this, _viewModel);
+
+  void onButtonPressed(LogInButtonAction action) {
+    if (action == LogInButtonAction.login) {
+      _viewModel.checkLogin();
+    } else if (action == LogInButtonAction.register) {
+      Navigator.pushNamed(context, AppRoutes.APP_ROUTE_SIGNUP);
+    }
+  }
+
+  void setPasswordVisible() {
+    setState(() {
+      _passwordVisible = !_passwordVisible;
+    });
+  }
+}
+
+class LoginView extends StatelessWidget {
+
+  final _LoginFormController state;
+  LoginScreen get widget => state.widget;
+  final LoginViewModel _viewModel;
+
+  LoginView(this.state,this._viewModel, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +61,7 @@ class LoginState extends State<LoginView> {
           ])),
     );
   }
+
 
   Widget _userNameStream() {
     return StreamBuilder<String>(
@@ -73,16 +92,14 @@ class LoginState extends State<LoginView> {
           hintText: LoginStrings.USER_PASSWORD_HINT,
           suffix: IconButton(
             icon: Icon(
-                _passwordVisible ? Icons.visibility : Icons.visibility_off),
+                state._passwordVisible ? Icons.visibility : Icons.visibility_off),
             onPressed: () {
-              setState(() {
-                _passwordVisible = !_passwordVisible;
-              });
+              state.setPasswordVisible();
             },
           ),
         ),
         controller: _viewModel.userPasswordController,
-        obscureText: !_passwordVisible,
+        obscureText: !state._passwordVisible,
       ),
     );
   }
@@ -101,7 +118,7 @@ class LoginState extends State<LoginView> {
         children: <Widget>[
           RaisedButton(
             child: Text(LoginStrings.LOGIN_BUTTON),
-            onPressed: () => onButtonPressed(LogInButtonAction.login),
+            onPressed: () => state.onButtonPressed(LogInButtonAction.login),
           ),
           FlatButton(
             key: Key("register"),
@@ -109,22 +126,15 @@ class LoginState extends State<LoginView> {
               LoginStrings.SIGNUP_BUTTON,
               textAlign: TextAlign.center,
             ),
-            onPressed: () => onButtonPressed(LogInButtonAction.register),
+            onPressed: () => state.onButtonPressed(LogInButtonAction.register),
           ),
           FlatButton(
             child: Text(LoginStrings.FORGOT_PASSWORD),
-            onPressed: () => onButtonPressed(LogInButtonAction.passwordReset),
+            onPressed: () => state.onButtonPressed(LogInButtonAction.passwordReset),
           )
         ],
       ),
     );
   }
 
-  void onButtonPressed(LogInButtonAction action) {
-    if (action == LogInButtonAction.login) {
-      _viewModel.checkLogin();
-    } else if (action == LogInButtonAction.register) {
-      Navigator.pushNamed(context, AppRoutes.APP_ROUTE_SIGNUP);
-    }
-  }
 }
