@@ -1,7 +1,6 @@
 import 'dart:async';
 
 abstract class LoginFormObserverContract {
-  static const int USER_NAME_VALID_LENGTH = 3;
 
   Sink get userName;
   Sink get userPassword;
@@ -9,11 +8,15 @@ abstract class LoginFormObserverContract {
   Stream<String> get userNameErrorText;
   Stream<bool> get _isValidUserName;
 
+  bool _checkValidUserName(String userName);
+  void _handleLoginEnableProcess();
+
   void dispose();
 
 }
 
 class LoginFormObserver extends LoginFormObserverContract {
+  static const int USER_NAME_VALID_LENGTH = 3;
   var _userNameController = StreamController<String>.broadcast();
   var _userPasswordController = StreamController<String>.broadcast();
   var _userNameErrorMsgController = StreamController<String>.broadcast();
@@ -39,7 +42,7 @@ class LoginFormObserver extends LoginFormObserverContract {
   Stream<String> get userNameErrorText => _userNameErrorMsgController.stream;
 
   @override
-  Stream<bool> get _isValidUserName => _userNameController.stream.skip(LoginFormObserverContract.USER_NAME_VALID_LENGTH)
+  Stream<bool> get _isValidUserName => _userNameController.stream.skip(USER_NAME_VALID_LENGTH)
       .map((_checkValidUserName));
 
   @override
@@ -54,7 +57,7 @@ class LoginFormObserver extends LoginFormObserverContract {
   }
 
   @override
-  bool _checkValidUserName(String userName) => userName != null && userName.length >= LoginFormObserverContract.USER_NAME_VALID_LENGTH;
+  bool _checkValidUserName(String userName) => userName != null && userName.length >= USER_NAME_VALID_LENGTH;
 
 
 }
