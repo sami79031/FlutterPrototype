@@ -89,8 +89,8 @@ class LoginFormObserver extends LoginFormObserverContract {
 
   @override
   String _checkValidPassword(String password) {
-    if (password.length < 3)
-      return "Password must be greater than 8!";
+    if (password.length < LoginRequirements.USER_PASSWORD_VALID_LENGTH)
+      return LoginErrorMessage.userPasswordLength.value;
 
     return null;
   }
