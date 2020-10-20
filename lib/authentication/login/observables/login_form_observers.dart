@@ -1,23 +1,7 @@
 import 'dart:async';
 
-enum LoginErrorMessage {
-  userNameNull,
-  userNameMinimumCharacters,
-  userNameFormat
-}
-
-class Err extends Error {}
-
-extension ErroeMessageExt on LoginErrorMessage {
-  static const map = {
-    LoginErrorMessage.userNameFormat: "Username is not in valid format",
-    LoginErrorMessage.userNameMinimumCharacters:
-        "User name must be at least ${LoginFormObserver.USER_NAME_VALID_LENGTH} characters",
-    LoginErrorMessage.userNameNull: "Type in username",
-  };
-
-  String get value => map[this];
-}
+import 'package:mall_prototype/authentication/login/login/login_error_types.dart';
+import 'package:mall_prototype/authentication/login/login/login_static.dart';
 
 abstract class LoginFormObserverContract {
   Sink get userName;
@@ -36,13 +20,9 @@ abstract class LoginFormObserverContract {
 }
 
 class LoginFormObserver extends LoginFormObserverContract {
-  static const int USER_NAME_VALID_LENGTH = 7;
   var _userNameController = StreamController<String>.broadcast();
   var _userPasswordController = StreamController<String>.broadcast();
   var _userNameErrorMsgController = StreamController<String>.broadcast();
-  static const USERNAME_REGEX = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:'
-      r'\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}'
-      r'\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
 
   LoginFormObserver() : super() {
     _handleLoginEnableProcess();
@@ -66,7 +46,7 @@ class LoginFormObserver extends LoginFormObserverContract {
 
   @override
   Stream<String> get _isValidUserName => _userNameController.stream
-      .skip(USER_NAME_VALID_LENGTH)
+      .skip(LoginRequirements.USER_NAME_VALID_LENGTH)
       .map((_checkValidUserName));
 
   @override
@@ -81,7 +61,7 @@ class LoginFormObserver extends LoginFormObserverContract {
     if (userName == null || userName.isEmpty)
       return LoginErrorMessage.userNameNull.value;
 
-    if (userName.length < USER_NAME_VALID_LENGTH)
+    if (userName.length < LoginRequirements.USER_NAME_VALID_LENGTH)
       return LoginErrorMessage.userNameMinimumCharacters.value;
 
     if (!_validateEmail(userName))
@@ -91,7 +71,7 @@ class LoginFormObserver extends LoginFormObserverContract {
   }
 
   bool _validateEmail(String value) {
-    Pattern pattern = USERNAME_REGEX;
+    Pattern pattern = LoginRequirements.USERNAME_REGEX;
     RegExp regex = new RegExp(pattern);
     return (!regex.hasMatch(value)) ? false : true;
   }

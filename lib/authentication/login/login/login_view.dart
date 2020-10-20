@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:mall_prototype/resources/login_strings.dart';
 import 'login_screen.dart';
 
+
 class LoginView extends StatelessWidget {
+  LoginView(this.state, {Key key}) : super(key: key);
 
   final LoginFormController state;
   LoginScreen get widget => state.widget;
-
-  LoginView(this.state, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,6 @@ class LoginView extends StatelessWidget {
           ])),
     );
   }
-
 
   Widget _userNameStream() {
     return StreamBuilder<String>(
