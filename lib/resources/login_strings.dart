@@ -6,4 +6,5 @@ class LoginStrings {
   static const String LOGIN_BUTTON = "Login";
   static const String SIGNUP_BUTTON = "Don\'t have an account? Tap here to register.";
   static const String FORGOT_PASSWORD = "Forgot Password?";
+  static const String USER_PASSWORD_HINT = "type password...";
 }

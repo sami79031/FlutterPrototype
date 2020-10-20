@@ -6,7 +6,6 @@ import 'models/login_view_model.dart';
 enum LogInButtonAction { login, register, passwordReset }
 
 class LoginScreen extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,10 +21,12 @@ class LoginView extends StatefulWidget {
 
 class LoginState extends State<LoginView> {
   LoginViewModel _viewModel;
+  bool _passwordVisible;
 
   @override
   void initState() {
     super.initState();
+    _passwordVisible = false;
     _viewModel = LoginViewModel();
   }
 
@@ -48,7 +49,7 @@ class LoginState extends State<LoginView> {
       stream: _viewModel.getLoginFormObserver().userNameErrorText,
       builder: (context, snapshot) {
         return Container(
-          child: TextField(
+          child: TextFormField(
             key: Key("user_name"),
             decoration: InputDecoration(
               labelText: LoginStrings.USER_NAME_LABEL,
@@ -68,11 +69,25 @@ class LoginState extends State<LoginView> {
         children: <Widget>[
           _userNameStream(),
           Container(
-            child: TextField(
+            height: 65,
+            child: TextFormField(
               //controller: _passwordFilter,
-              decoration: InputDecoration(labelText: LoginStrings.USER_PASSWORD_LABEL),
+              decoration: InputDecoration(
+                labelText: LoginStrings.USER_PASSWORD_LABEL,
+                hintText: LoginStrings.USER_PASSWORD_HINT,
+                suffix: IconButton(
+                  icon: Icon(_passwordVisible
+                      ? Icons.visibility
+                      : Icons.visibility_off),
+                  onPressed: () {
+                    setState(() {
+                      _passwordVisible = !_passwordVisible;
+                    });
+                  },
+                ),
+              ),
               controller: _viewModel.userPasswordController,
-              obscureText: true,
+              obscureText: !_passwordVisible,
             ),
           )
         ],
