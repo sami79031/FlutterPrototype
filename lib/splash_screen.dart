@@ -31,7 +31,7 @@ class SplashState extends State<SplashView>
   var _iconAnimation;
 
   startTimeout() async {
-    return Timer(const Duration(seconds: 3), handleTimeout);
+    return Timer(const Duration(seconds: 1), handleTimeout);
   }
 
   void handleTimeout()async {

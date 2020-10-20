@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mall_prototype/app/app_routes.dart';
+import 'package:mall_prototype/resources/login_strings.dart';
 import 'models/login_view_model.dart';
 
 enum LogInButtonAction { login, register, passwordReset }
@@ -50,8 +51,8 @@ class LoginState extends State<LoginView> {
           child: TextField(
             key: Key("user_name"),
             decoration: InputDecoration(
-              labelText: 'UserName',
-              hintText: "type user name",
+              labelText: LoginStrings.USER_NAME_LABEL,
+              hintText: LoginStrings.USER_NAME_LABEL_HINT,
               errorText: snapshot.data,
             ),
             controller: _viewModel.userNameController,
@@ -69,7 +70,7 @@ class LoginState extends State<LoginView> {
           Container(
             child: TextField(
               //controller: _passwordFilter,
-              decoration: InputDecoration(labelText: 'Password'),
+              decoration: InputDecoration(labelText: LoginStrings.USER_PASSWORD_LABEL),
               controller: _viewModel.userPasswordController,
               obscureText: true,
             ),
@@ -84,19 +85,19 @@ class LoginState extends State<LoginView> {
       child: Column(
         children: <Widget>[
           RaisedButton(
-            child: Text('Login'),
+            child: Text(LoginStrings.LOGIN_BUTTON),
             onPressed: () => onButtonPressed(LogInButtonAction.login),
           ),
           FlatButton(
             key: Key("register"),
             child: Text(
-              'Don\'t have an account? Tap here to register.',
+              LoginStrings.SIGNUP_BUTTON,
               textAlign: TextAlign.center,
             ),
             onPressed: () => onButtonPressed(LogInButtonAction.register),
           ),
           FlatButton(
-            child: Text('Forgot Password?'),
+            child: Text(LoginStrings.FORGOT_PASSWORD),
             onPressed: () => onButtonPressed(LogInButtonAction.passwordReset),
           )
         ],
