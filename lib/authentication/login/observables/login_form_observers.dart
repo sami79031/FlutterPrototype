@@ -40,6 +40,7 @@ class LoginFormObserver extends LoginFormObserverContract {
   var _userNameController = StreamController<String>.broadcast();
   var _userPasswordController = StreamController<String>.broadcast();
   var _userNameErrorMsgController = StreamController<String>.broadcast();
+  static const USERNAME_REGEX = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
 
   LoginFormObserver() : super() {
     _handleLoginEnableProcess();
@@ -88,8 +89,7 @@ class LoginFormObserver extends LoginFormObserverContract {
   }
 
   bool _validateEmail(String value) {
-    Pattern pattern =
-        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    Pattern pattern = USERNAME_REGEX;
     RegExp regex = new RegExp(pattern);
     return (!regex.hasMatch(value)) ? false : true;
   }
