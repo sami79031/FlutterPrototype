@@ -12,7 +12,7 @@ extension ErroeMessageExt on LoginErrorMessage {
   static const map = {
     LoginErrorMessage.userNameFormat: "Username is not in valid format",
     LoginErrorMessage.userNameMinimumCharacters:
-        "User name must be at least 3 characters",
+        "User name must be at least ${LoginFormObserver.USER_NAME_VALID_LENGTH} characters",
     LoginErrorMessage.userNameNull: "Type in username",
   };
 
@@ -36,11 +36,13 @@ abstract class LoginFormObserverContract {
 }
 
 class LoginFormObserver extends LoginFormObserverContract {
-  static const int USER_NAME_VALID_LENGTH = 3;
+  static const int USER_NAME_VALID_LENGTH = 7;
   var _userNameController = StreamController<String>.broadcast();
   var _userPasswordController = StreamController<String>.broadcast();
   var _userNameErrorMsgController = StreamController<String>.broadcast();
-  static const USERNAME_REGEX = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+  static const USERNAME_REGEX = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:'
+      r'\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}'
+      r'\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
 
   LoginFormObserver() : super() {
     _handleLoginEnableProcess();
